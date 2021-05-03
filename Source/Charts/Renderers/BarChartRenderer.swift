@@ -39,6 +39,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///
     /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
     internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
+    
+    internal var barCornerRadius = CGFloat(10.0)
+    
+    internal var barCorners: UIRectCorner = [.allCorners]
 
     private typealias Buffer = [CGRect]
     
@@ -351,7 +355,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
+                let bezierPath = UIBezierPath(
+                    roundedRect: barRect,
+                    cornerRadius: barCornerRadius
+                )
+                context.addPath(bezierPath.cgPath)
+                context.drawPath(using: .fill)
             }
         }
         
@@ -379,7 +388,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            //            let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: barCornerRadius)
+                
+            let bezierPath = UIBezierPath(
+                roundedRect: barRect,
+                byRoundingCorners: barCorners,
+                cornerRadii: CGSize(width: barCornerRadius, height:  barCornerRadius)
+            )
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
             
             if drawBorder
             {
@@ -741,10 +758,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
                 
                 prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
-                
                 setHighlightDrawPos(highlight: high, barRect: barRect)
-                
-                context.fill(barRect)
+                let bezierPath = UIBezierPath(
+                    roundedRect: barRect,
+                    cornerRadius: barCornerRadius
+                )
+                context.addPath(bezierPath.cgPath)
+                context.drawPath(using: .fill)
             }
         }
     }

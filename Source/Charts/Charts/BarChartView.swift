@@ -21,11 +21,19 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
     
+    /// if set to true, each bar is drawn with corner radius
+    private var _drawBarCornerRadiusEnabled = false
+    
     internal override func initialize()
     {
         super.initialize()
         
         renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
+        if _drawBarCornerRadiusEnabled
+        {
+            (renderer as? BarChartRenderer)?.barCornerRadius = barCornerRadius
+            (renderer as? BarChartRenderer)?.barCorners = barCorners
+        }
         
         self.highlighter = BarHighlighter(chart: self)
         
@@ -163,9 +171,28 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
+    @objc open var drawBarCornerRadiusEnabled: Bool
+    {
+        get { return _drawBarCornerRadiusEnabled }
+        set
+        {
+            _drawBarCornerRadiusEnabled = newValue
+            setNeedsDisplay()
+        }
+    }
+    
     /// Adds half of the bar width to each side of the x-axis range in order to allow the bars of the barchart to be fully displayed.
     /// **default**: false
     @objc open var fitBars = false
+    
+    /// The value of each bars's corner radius
+    /// `drawBarCornerRadiusEnabled` should be true for drawing corner radius
+    /// **default**: 10
+    @objc open var barCornerRadius: CGFloat = 10
+    
+    /// Corners for drawing
+    /// **default**: UIRectCorner.allCorners
+    @objc open var barCorners: UIRectCorner = [.allCorners]
     
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values (relevant only for stacked).
     /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
