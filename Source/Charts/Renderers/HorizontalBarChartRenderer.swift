@@ -228,7 +228,13 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 _barShadowRectBuffer.size.width = viewPortHandler.contentWidth
                 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
+                let bezierPath = UIBezierPath(
+                    roundedRect: _barShadowRectBuffer,
+                    cornerRadius: barCornerRadius
+                )
+                context.addPath(bezierPath.cgPath)
+                context.drawPath(using: .fill)
+                
             }
         }
         
@@ -265,7 +271,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
 
-            context.fill(barRect)
+            let bezierPath = UIBezierPath(
+                roundedRect: barRect,
+                cornerRadius: barCornerRadius
+            )
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
 
             if drawBorder
             {

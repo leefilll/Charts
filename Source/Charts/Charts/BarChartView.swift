@@ -17,9 +17,12 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
 {
     /// if set to true, all values are drawn above their bars, instead of below their top
     private var _drawValueAboveBarEnabled = true
-
+    
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
+    
+    /// if set to true, each bar is drawn with corner radius
+    internal var _drawBarCornerRadiusEnabled = false
     
     internal override func initialize()
     {
@@ -33,10 +36,19 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         self.xAxis.spaceMax = 0.5
     }
     
+    open override func draw(_ rect: CGRect) {
+        if _drawBarCornerRadiusEnabled
+        {
+            (renderer as? BarChartRenderer)?.barCornerRadius = barCornerRadius
+            (renderer as? BarChartRenderer)?.barCorners = barCorners
+        }
+        super.draw(rect)
+    }
+    
     internal override func calcMinMax()
     {
         guard let data = self.data as? BarChartData
-            else { return }
+        else { return }
         
         if fitBars
         {
@@ -68,7 +80,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
         
         guard let h = self.highlighter?.getHighlight(x: pt.x, y: pt.y)
-            else { return nil }
+        else { return nil }
         
         if !isHighlightFullBarEnabled { return h }
         
@@ -81,14 +93,14 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
             stackIndex: -1,
             axis: h.axis)
     }
-        
+    
     /// - Returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     @objc open func getBarBounds(entry e: BarChartDataEntry) -> CGRect
     {
         guard let
-            data = data as? BarChartData,
-            let set = data.getDataSetForEntry(e) as? BarChartDataSetProtocol
-            else { return .null }
+                data = data as? BarChartData,
+              let set = data.getDataSetForEntry(e) as? BarChartDataSetProtocol
+        else { return .null }
         
         let y = e.y
         let x = e.x
@@ -118,7 +130,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     @objc open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
     {
         guard let barData = self.barData
-            else
+        else
         {
             Swift.print("You need to set data for the chart before grouping bars.", terminator: "\n")
             return
@@ -138,7 +150,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
     }
-
+    
     // MARK: Accessors
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -163,6 +175,16 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
+    @objc open var drawBarCornerRadiusEnabled: Bool
+    {
+        get { return _drawBarCornerRadiusEnabled }
+        set
+        {
+            _drawBarCornerRadiusEnabled = newValue
+            setNeedsDisplay()
+        }
+    }
+    
     /// Adds half of the bar width to each side of the x-axis range in order to allow the bars of the barchart to be fully displayed.
     /// **default**: false
     @objc open var fitBars = false
@@ -170,6 +192,16 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values (relevant only for stacked).
     /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
     @objc open var highlightFullBarEnabled: Bool = false
+    
+    /// The value of each bars's corner radius
+    /// `drawBarCornerRadiusEnabled` should be true for drawing corner radius
+    /// **default**: 10
+    @objc open var barCornerRadius: CGFloat = 10
+    
+    /// Corners for drawing
+    /// **default**: UIRectCorner.allCorners
+    @objc open var barCorners: UIRectCorner = [.allCorners]
+    
     
     /// `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }

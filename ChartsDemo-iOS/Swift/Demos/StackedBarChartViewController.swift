@@ -54,6 +54,9 @@ class StackedBarChartViewController: DemoBaseViewController {
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = false
         chartView.highlightFullBarEnabled = false
+        chartView.drawBarCornerRadiusEnabled = true
+        chartView.barCorners = .allCorners
+        chartView.barCornerRadius = 12
         
         let leftAxis = chartView.leftAxis
         leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)

@@ -42,6 +42,9 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
+        chartView.drawBarCornerRadiusEnabled = true
+        chartView.barCorners = .allCorners
+        chartView.barCornerRadius = 12
         
         chartView.maxVisibleCount = 60
         

@@ -119,7 +119,7 @@ class LineChart1ViewController: DemoBaseViewController {
         setup(set1)
 
         let value = ChartDataEntry(x: Double(3), y: 3)
-        set1.addEntryOrdered(value)
+        _ = set1.addEntryOrdered(value)
         let gradientColors = [ChartColorTemplates.colorFromString("#00ff0000").cgColor,
                               ChartColorTemplates.colorFromString("#ffff0000").cgColor]
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
