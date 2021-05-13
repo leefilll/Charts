@@ -50,6 +50,9 @@ class StackedBarChartViewController: DemoBaseViewController {
         
         chartView.chartDescription.enabled = false
         
+        chartView.drawBarCornerRadiusEnabled = true
+        chartView.barCorners = .allCorners
+        chartView.barCornerRadius = 12
         chartView.maxVisibleCount = 40
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = false

@@ -45,6 +45,9 @@ class BarChartViewController: DemoBaseViewController {
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = false
         
+        chartView.drawBarCornerRadiusEnabled = true
+        chartView.barCorners = .allCorners
+        chartView.barCornerRadius = 12
         chartView.maxVisibleCount = 60
         
         let xAxis = chartView.xAxis

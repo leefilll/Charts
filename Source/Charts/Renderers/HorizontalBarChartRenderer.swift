@@ -234,6 +234,14 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         let buffer = _buffers[index]
         
+        context.setFillColor(dataSet.barShadowColor.cgColor)
+        let bezierPath = UIBezierPath(
+            roundedRect: _barShadowRectBuffer,
+            cornerRadius: barCornerRadius
+        )
+        context.addPath(bezierPath.cgPath)
+        context.drawPath(using: .fill)
+        
         let isSingleColor = dataSet.colors.count == 1
         
         if isSingleColor
@@ -259,14 +267,20 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
+            context.setFillColor(dataSet.barShadowColor.cgColor)
+            let bezierPath = UIBezierPath(
+                roundedRect: barRect,
+                cornerRadius: barCornerRadius
+            )
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
+            
             if !isSingleColor
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-
-            context.fill(barRect)
-
+            
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)

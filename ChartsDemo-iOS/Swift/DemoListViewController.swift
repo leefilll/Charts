@@ -95,7 +95,8 @@ class DemoListViewController: UIViewController {
 
         self.title = "Charts Demonstration"
         self.tableView.rowHeight = 70
-        //FIXME: Add TimeLineChart
+        //FIXME: Add TimeLineChart'
+        print(#function, "DEMO VC")
         
     }
 }

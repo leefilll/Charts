@@ -22,23 +22,26 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     private var _drawBarShadowEnabled = false
     
     /// if set to true, each bar is drawn with corner radius
-    private var _drawBarCornerRadiusEnabled = false
+    internal var _drawBarCornerRadiusEnabled = false
     
     internal override func initialize()
     {
         super.initialize()
         
         renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
+        self.highlighter = BarHighlighter(chart: self)
+        
+        self.xAxis.spaceMin = 0.5
+        self.xAxis.spaceMax = 0.5
+    }
+    
+    open override func draw(_ rect: CGRect) {
         if _drawBarCornerRadiusEnabled
         {
             (renderer as? BarChartRenderer)?.barCornerRadius = barCornerRadius
             (renderer as? BarChartRenderer)?.barCorners = barCorners
         }
-        
-        self.highlighter = BarHighlighter(chart: self)
-        
-        self.xAxis.spaceMin = 0.5
-        self.xAxis.spaceMax = 0.5
+        super.draw(rect)
     }
     
     internal override func calcMinMax()

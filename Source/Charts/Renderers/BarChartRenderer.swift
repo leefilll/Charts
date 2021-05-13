@@ -40,7 +40,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
     internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
     
-    internal var barCornerRadius = CGFloat(10.0)
+    internal var barCornerRadius = CGFloat(0)
     
     internal var barCorners: UIRectCorner = [.allCorners]
 
@@ -387,8 +387,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
-            //            let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: barCornerRadius)
                 
             let bezierPath = UIBezierPath(
                 roundedRect: barRect,
