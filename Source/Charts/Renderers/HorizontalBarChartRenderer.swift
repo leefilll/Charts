@@ -234,7 +234,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         let buffer = _buffers[index]
         
-        context.setFillColor(dataSet.barShadowColor.cgColor)
         let bezierPath = UIBezierPath(
             roundedRect: _barShadowRectBuffer,
             cornerRadius: barCornerRadius
@@ -267,7 +266,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
-            context.setFillColor(dataSet.barShadowColor.cgColor)
             let bezierPath = UIBezierPath(
                 roundedRect: barRect,
                 cornerRadius: barCornerRadius
