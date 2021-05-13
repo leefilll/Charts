@@ -394,7 +394,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 cornerRadii: CGSize(width: barCornerRadius, height:  barCornerRadius)
             )
             context.addPath(bezierPath.cgPath)
-            context.drawPath(using: .fillStroke)
+            context.drawPath(using: .fill)
             
             if drawBorder
             {
