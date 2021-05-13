@@ -234,12 +234,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         let buffer = _buffers[index]
         
-        let bezierPath = UIBezierPath(
-            roundedRect: _barShadowRectBuffer,
-            cornerRadius: barCornerRadius
-        )
-        context.addPath(bezierPath.cgPath)
-        context.drawPath(using: .fill)
+//        let bezierPath = UIBezierPath(
+//            roundedRect: _barShadowRectBuffer,
+//            cornerRadius: barCornerRadius
+//        )
+//        context.addPath(bezierPath.cgPath)
+//        context.drawPath(using: .fill)
         
         let isSingleColor = dataSet.colors.count == 1
         
@@ -266,13 +266,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
-            let bezierPath = UIBezierPath(
-                roundedRect: barRect,
-                cornerRadius: barCornerRadius
-            )
-            context.addPath(bezierPath.cgPath)
-            context.drawPath(using: .fill)
-            
             if !isSingleColor
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
@@ -285,6 +278,13 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
             }
+            
+            let bezierPath = UIBezierPath(
+                roundedRect: barRect,
+                cornerRadius: barCornerRadius
+            )
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
             if let chart = dataProvider as? BarChartView

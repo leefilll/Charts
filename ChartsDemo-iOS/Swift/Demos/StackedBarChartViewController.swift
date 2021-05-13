@@ -13,7 +13,7 @@ import Charts
 
 class StackedBarChartViewController: DemoBaseViewController {
 
-    @IBOutlet var chartView: BarChartView!
+    @IBOutlet var chartView: HorizontalBarChartView!
     @IBOutlet var sliderX: UISlider!
     @IBOutlet var sliderY: UISlider!
     @IBOutlet var sliderTextX: UITextField!
@@ -105,7 +105,7 @@ class StackedBarChartViewController: DemoBaseViewController {
         
         let set = BarChartDataSet(entries: yVals, label: "Statistics Vienna 2014")
         set.drawIconsEnabled = false
-        set.colors = [ChartColorTemplates.material()[0], ChartColorTemplates.material()[1], ChartColorTemplates.material()[2]]
+        set.colors = [.red, .blue]
         set.stackLabels = ["Births", "Divorces", "Marriages"]
         
         let data = BarChartData(dataSet: set)
